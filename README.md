@@ -33,3 +33,4 @@
     * View Test report using browser
 
         file:///<project path>/reports/index.html
+      cypress cloud link: https://cloud.cypress.io/projects/b69ohr/runs/6
