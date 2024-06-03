@@ -51,13 +51,13 @@ describe('Telus Website', function()
     
         cy.wait(10000).then(
 
-        // Select internet plan with 20GB
+        // Select first hef link in the support section
         cy.get('.styles__ResultInnerContainer-sc-1aohvhp-4.gCwgVm > ul').find('li a').each(($el, index, $list) => {
             const textlink = $el.find('h2').text()
             //$el is a wrapped jquery element
             if(textlink.trim() !== "")
                 {
-                    // click is strikeout -use wrap
+                    // click is strikeout -used wrap
                     cy.wrap($el).click()
                 }   
                        

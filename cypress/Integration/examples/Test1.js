@@ -1,30 +1,27 @@
 //Cypress -- Spec
 /// <reference types="cypress"/>
+/// <reference types="cypress-iframe"/>
+import 'cypress-iframe'
 
-describe('Telus Website', function()
-{
-    it('Hide the Servey iframe', function(){
-        cy.visit('https://www.telus.com/en/on/search/');
+//Scenario 1: Basic URL Load Test
+describe('Telus Website', () => {
+    it('loads the Telus homepage', () => {
+      cy.visit('https://www.telus.com/en/on/search/');
+      cy.clearCookies()
+      // Verify title contains "TELUS"
+      cy.title().should('include', 'TELUS | Search'); 
+    });
+  });
 
-        // Wait for potential survey iframe to appear (adjust timeout as needed)
-        cy.wait(1000); // Wait for 5 seconds
-    
-        // Try to handle the iframe (adapt based on iframe properties)
-        // cy.get('iframe')
-        //   .then($iframe => {
-        //     // Check if iframe is visible (optional)
-        //     if ($iframe.is(':visible')) {
-        //       //  Try to hide the iframe using CSS (if applicable)
-        //       // $iframe.css('display', 'none'); // Uncomment if needed
-        //       $iframe.css('display', 'none');
-    
-             
-        //     }
-        //   });
-        // refactoring - see code in the command.js
-
-          cy.selectIframe('iframe')
+  // Scenario 2: Verify Search Bar Presence
+ 
+    describe('Telus Website', () => {
+        it('loads the Telus homepage and verifies search box is presence', () => {
+          cy.visit('https://www.telus.com/en/on/search/');
+          cy.clearCookies()
+          // Find element with input search box and assert visibility
+          cy.get('input[placeholder="Search"]').should('be.visible'); 
+        });
       });
 
-    })
-
+    
