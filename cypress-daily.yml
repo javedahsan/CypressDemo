@@ -1,0 +1,36 @@
+name: Cypress Daily Tests
+
+on:
+  schedule:
+    cron: "0 0 * * *"  # Runs at midnight every day (adjust the cron expression as needed)
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest  # Or a preferred runner with Node.js
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Adjust Node.js version if needed
+
+      - name: Cache Node.js modules (optional for efficiency)
+        uses: actions/cache@v3  # Consider caching dependencies for faster builds
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install Cypress dependencies
+        run: npm ci  # Or yarn install if using yarn
+
+      - name: Run Cypress tests (headed using chrome 
+        run: npx cypress run --record --key fd9ffbe2-3ebe-49a4-9092-7347bb819599 --spec cypress/integration/examples/*js --headed --browser chrome  
+
+      - name: Upload test report (optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-report
+          path: cypress/reports/  # Adjust path if your reports are saved elsewhere
