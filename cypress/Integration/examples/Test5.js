@@ -93,7 +93,7 @@ describe('Telus Website', function()
 
         cy.wait(10000)
         const selectAndPickupPage = new SelectAndPickupPage();
-        // verify Pick device page is display for payment processing
+        // verify Pick device page is display for payment processing 
 
         //cy.get('div.Col__StyledCol-sc-15yvjc7-0.bPxunr div.sc-aXZVg.jSWdBy > h1').contains('pick').should('be.visible')
         selectAndPickupPage.displayPaymentPage().contains('pick').should('be.visible')

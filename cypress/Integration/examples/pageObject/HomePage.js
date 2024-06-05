@@ -20,7 +20,6 @@ class homePage
         return  cy.get ('#drawer-mainnav-v1-inner-drawer > div');
     };
     
-    
 
 }
 export default homePage;
