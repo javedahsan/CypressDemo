@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 /// <reference types="cypress-iframe"/>
 import 'cypress-iframe'
+import HomePage from '../examples/pageObject/HomePage';
 
 describe('Telus Website', function()
 {
@@ -23,16 +24,23 @@ describe('Telus Website', function()
         const cookiesLocator = '#cookies-notice-banner #cookiesNotice-en-desktop a'
         cy.cookiesAck(cookiesLocator, this.data.ackBtn)
 
-        //cy.get('nav[aria-label="main links"] ul').find('button[data-test="megaNavListButton"]').each(($el, index, $list) => {
-        cy.get ('#drawer-mainnav-v1-inner-drawer > div').click();
-        cy.get ('#drawer-mainnav-v1-inner-drawer > div').should('be.visible')
+        const homePage = new HomePage();
+        // display dropdown list in Search TELUS.com box
        
+        //cy.get ('#drawer-mainnav-v1-inner-drawer > div').click();
+        homePage.displaySearchdropdownList().click();
+        
+        // verified dropdown list is displayed
+       // cy.get ('#drawer-mainnav-v1-inner-drawer > div').should('be.visible')
+        homePage.displaySearchdropdownList().should('be.visible');
+        
+        // Verify droplist contains 'Nobility
         cy.get('.sc-eZkCL.dpncAS').find('a') // Find all anchor elements (links) within the navigation
         .each(($link) => {
         // Get the text content of the current link
         const dropdownTxt = $link.text().trim()
        
-        // Check if the text content matches "Mobility" (case-sensitive)
+        // Check if the text content matches "Mobility
         if(dropdownTxt === 'Mobility')
             {
                 cy.log('Found "Mobility" dropdownTxt');

@@ -2,6 +2,9 @@
 /// <reference types="cypress"/>
 /// <reference types="cypress-iframe"/>
 import 'cypress-iframe'
+import HomePage from '../examples/pageObject/HomePage';
+import MobileInternetPage from '../examples/pageObject/MobileInternetPage';
+import SelectAndPickupPage from '../examples/pageObject/SelectAndPicupPage';
 
 describe('Telus Website', function()
 {
@@ -24,19 +27,20 @@ describe('Telus Website', function()
        // acknowledged Cookies
        const cookiesLocator = '#cookies-notice-banner #cookiesNotice-en-desktop a'
        cy.cookiesAck(cookiesLocator, this.data.ackBtn)
- 
+
+       const homePage = new HomePage();
         // validate dynamic dropdown list based on input word 'inter' the search box 
-        cy.get('input[placeholder="Search"]').type(this.data.searchTxt)
-        cy.get('ul.gvWLHq li span').eq(2).click()
+        homePage.getEditBox().type(this.data.searchTxt)
+        homePage.selectdropdownItem().eq(2).click()
         
         // validate search button displayed internet plan
 
-        cy.get('input[placeholder="Search"]').invoke('attr', 'value').then(value => {
+        homePage.getEditBox().invoke('attr', 'value').then(value => {
             // capture attribue value
             console.log("Input value:", value);
             
             // validate search button displayed internet plan
-            cy.get('input[placeholder="Search"]').should('have.value',value)
+            homePage.getEditBox().should('have.value',value)
           });
           
         // wait for to survey iframe inviisible - TBD
@@ -46,10 +50,10 @@ describe('Telus Website', function()
         cy.selectIframe('iframe')
 
         // verify list of Internet plan displayed  
-        cy.get('.styles__ResultInnerContainer-sc-1aohvhp-4 > ul').find('li').its('length').should('be.gte', 1);
+        homePage.getListOfPlans().find('li').its('length').should('be.gte', 1);
 
         // Select internet plan with 20GB
-        cy.get('.styles__ResultInnerContainer-sc-1aohvhp-4 > ul').find('li').each(($el, index, $list) => {
+        homePage.getListOfPlans().find('li').each(($el, index, $list) => {
 
             //$el is a wrapped jquery element
             const textVeg = $el.find('div.style__PlanNameWrapper-sc-i2pptv-3').text()
@@ -77,16 +81,22 @@ describe('Telus Website', function()
 
         cy.wait(10000)
 
+        const mobilePage = new  MobileInternetPage();
         // continue flow with internet plan and buy Smart Hub
-        cy.get('.css-175oi2r.r-1loqt21').contains('Buy Smart Hub').should('be.visible')
-
+        //cy.get('.css-175oi2r.r-1loqt21').contains('Buy Smart Hub').should('be.visible')
+        mobilePage.displayMobilePage().contains('Buy Smart Hub').should('be.visible');
+     
         // select buy Smart Button to proceed order
-        cy.get('div[data-testid="button-link-testid"]').contains('Buy Smart Hub').click();
+        //cy.get('div[data-testid="button-link-testid"]').contains('Buy Smart Hub').click();
+        mobilePage.clickSmartButton().contains('Buy Smart Hub').click();
+       
 
         cy.wait(10000)
-
+        const selectAndPickupPage = new SelectAndPickupPage();
         // verify Pick device page is display for payment processing
-        cy.get('div.Col__StyledCol-sc-15yvjc7-0.bPxunr div.sc-aXZVg.jSWdBy > h1').contains('pick').should('be.visible')
+
+        //cy.get('div.Col__StyledCol-sc-15yvjc7-0.bPxunr div.sc-aXZVg.jSWdBy > h1').contains('pick').should('be.visible')
+        selectAndPickupPage.displayPaymentPage().contains('pick').should('be.visible')
                
 
     })

@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 /// <reference types="cypress-iframe"/>
 import 'cypress-iframe'
+import HomePage from '../examples/pageObject/HomePage';
 
 //Scenario 1: Basic URL Load Test
 describe('Telus Website', () => {
@@ -19,8 +20,11 @@ describe('Telus Website', () => {
         it('loads the Telus homepage and verifies search box is presence', () => {
           cy.visit('https://www.telus.com/en/on/search/');
           cy.clearCookies()
+
           // Find element with input search box and assert visibility
-          cy.get('input[placeholder="Search"]').should('be.visible'); 
+          const homePage = new HomePage();
+          //cy.get('input[placeholder="Search"]').should('be.visible'); 
+          homePage.getEditBox().should('be.visible');
         });
       });
 

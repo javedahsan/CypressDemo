@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 /// <reference types="cypress-iframe"/>
 import 'cypress-iframe'
+import HomePage from '../examples/pageObject/HomePage';
 
 describe('Telus Website', function()
 {
@@ -21,22 +22,29 @@ describe('Telus Website', function()
         //verify no cookies cy.
         //cy.getCookies().should('be.empty')
 
+        const homePage = new HomePage();
        // acknowledged Cookies
        const cookiesLocator = '#cookies-notice-banner #cookiesNotice-en-desktop a'
        cy.cookiesAck(cookiesLocator, this.data.ackBtn)
  
         // validate dynamic dropdown list based on input word 'inter' the search box 
-        cy.get('input[placeholder="Search"]').type(this.data.searchTxt)
-        cy.get('ul.gvWLHq li span').eq(2).click()
-        
+        //cy.get('input[placeholder="Search"]').type(this.data.searchTxt)
+            homePage.getEditBox().type(this.data.searchTxt);
+ 
         // validate search button displayed internet plan
-
-        cy.get('input[placeholder="Search"]').invoke('attr', 'value').then(value => {
+        //cy.get('ul.gvWLHq li span').eq(2).click()
+            homePage.selectdropdownItem().eq(2).click()
+         
+ 
+       //cy.get('input[placeholder="Search"]').invoke('attr', 'value').then(value => {
+            homePage.getEditBox().invoke('attr', 'value').then(value => { 
             // capture attribue value
             console.log("Input value:", value);
             
             // validate search button displayed internet plan
-            cy.get('input[placeholder="Search"]').should('have.value',value)
+            //cy.get('input[placeholder="Search"]').should('have.value',value)
+            homePage.getEditBox().should('have.value',value)
+            
           });
           
         // wait for to survey iframe inviisible - TBD
@@ -46,7 +54,8 @@ describe('Telus Website', function()
         cy.selectIframe('iframe')
 
         // verify list of Internet plan displayed  
-        cy.get('.styles__ResultInnerContainer-sc-1aohvhp-4 > ul').find('li').its('length').should('be.gte', 1);
+        //cy.get('.styles__ResultInnerContainer-sc-1aohvhp-4 > ul').find('li').its('length').should('be.gte', 1);
+        homePage.getListOfPlans().find('li').its('length').should('be.gte', 1);
 
     })
 
