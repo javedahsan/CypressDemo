@@ -2,7 +2,7 @@ class SelectAndPicupPage
 {
     displayPaymentPage()
     {
-        return cy.get('.css-175oi2r.r-1loqt21');
+        return cy.get('div.Col__StyledCol-sc-15yvjc7-0.bPxunr div.sc-aXZVg.jSWdBy > h1');
     };
 
 }

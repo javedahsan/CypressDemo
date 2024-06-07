@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 /// <reference types="cypress-iframe"/>
 import 'cypress-iframe'
+
 import HomePage from '../examples/pageObject/HomePage';
 import MobileInternetPage from '../examples/pageObject/MobileInternetPage';
 import SelectAndPickupPage from '../examples/pageObject/SelectAndPicupPage';
